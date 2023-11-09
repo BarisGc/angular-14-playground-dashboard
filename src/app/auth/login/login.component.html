@@ -1,0 +1,125 @@
+<div class="logo" fxHide.gt-xs>A</div>
+
+<div class="title">SIGN IN v5</div>
+
+<form [formGroup]="form">
+  <fieldset>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+      />
+
+      <mat-error
+        *ngIf="_email.hasError('required')"
+        class="form-control-feedback"
+      >
+        The email is mandatory
+      </mat-error>
+
+      <mat-error *ngIf="_email.hasError('minlength')">
+        Your email must have minimum
+        {{ _email.errors?.minlength.requiredLength }} characters but it only has
+        {{ _email.errors?.minlength.actualLength }}
+      </mat-error>
+
+      <mat-error *ngIf="_email.hasError('email')" class="form-control-feedback">
+        This is not a valid email
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Password"
+        formControlName="password"
+      />
+
+      <mat-error
+        *ngIf="form.controls['password'].hasError('required')"
+        class="form-control-feedback"
+      >
+        Password is required
+      </mat-error>
+    </mat-form-field>
+
+    <ng-container
+      *ngIf="
+        form.controls['password'].errors
+          | onlyOneError : ['minlength', 'passwordStrength'] as error
+      "
+    >
+      <div
+        class="field-message"
+        [ngStyle]="{
+          color: 'red',
+          fontSize: '75%',
+          marginTop: '-20px',
+          marginBottom: '-10px'
+        }"
+        *ngIf="error.minlength"
+      >
+        Your password must have minimum
+        {{ error.minlength.requiredLength }} characters but it only has
+        {{ error.minlength.actualLength }}
+      </div>
+      <div
+        class="field-message"
+        [ngStyle]="{
+          color: 'red',
+          fontSize: '75%',
+          marginTop: '-20px',
+          marginBottom: '-10px'
+        }"
+        *ngIf="error.passwordStrength"
+      >
+        Your password must have lower case, upper case and numeric characters!
+      </div>
+    </ng-container>
+
+    <button
+      type="submit"
+      [disabled]="form.valid === false"
+      mat-raised-button
+      color="primary"
+      (click)="loginUser()"
+    >
+      SIGN IN
+    </button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="accent"
+      (click)="subscribeToNotifications()"
+      [disabled]="sub"
+    >
+      Subscribe
+    </button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="warn"
+      (click)="sendNewsletter()"
+    >
+      Send
+    </button>
+  </fieldset>
+</form>
+<div>
+  {{ form.getRawValue() | json }}
+</div>
+<div>
+  {{ "isFormValid: " + form.valid }}
+</div>
+<div class="redirection">
+  <span class="text">Don't have an account?</span>
+  <a class="link" routerLink="/auth/register">Sign up</a>
+</div>
+
+<mat-spinner class="loading" [diameter]="25" *ngIf="loginLoading">
+</mat-spinner>

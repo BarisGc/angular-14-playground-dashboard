@@ -1,0 +1,61 @@
+/* layout */
+h1 {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 1.5rem 0;
+  background-color: teal;
+  font-style: italic;
+}
+.barisd-section-divider {
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+.barisd-section-divider::before,
+.barisd-section-divider::after {
+  flex: 1;
+  content: '';
+  padding: 3px;
+  background-color: red;
+  margin: 5px;
+}
+
+
+// forms
+form {
+  width: 100%;
+  padding-top: 32px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin: 16px auto;
+    display: block;
+  }
+}
+
+.loading {
+  margin: 16px auto;
+}
+
+@media screen and (max-width: 599px) {
+  form {
+    mat-form-field {
+      width: 80%;
+    }
+
+    button {
+      width: 80%;
+    }
+  }
+}
+
+/* example.component.css dosyanız */
+.custom-html-block {
+  /* Bloklarınıza özel CSS özelliklerini buraya ekleyin */
+  color: red;
+}

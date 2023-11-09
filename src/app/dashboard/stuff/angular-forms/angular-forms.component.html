@@ -1,0 +1,458 @@
+<div [ngStyle]="{ padding: '2rem' }">
+  <div class="barisd-section-divider">
+    $event EventTarget; property value does not exist on type
+  </div>
+  <div>
+    <h1>$event EventTarget; property value does not exist on type examples</h1>
+    <!-- component class solution -->
+    <input type="text" (input)="handleInput($event)" />
+    <p>you entered {{ value1 }}</p>
+    <br />
+    <!-- #multiple #multipleeventhandlers #$event -->
+    <p-button
+      label="Click"
+      (click)="clickMe(); clickCount1 = clickCount"
+    ></p-button>
+    <br />
+    clickcount1: {{ clickCount1 }}
+    <br />
+    click1: {{ clickCount }}
+    <br />
+    <!-- component template solution -->
+    <!-- #key up #keyup -->
+    <input (keyup)="value2 = $any($event.target).value" />
+    <p>you entered {{ value2 }}</p>
+    <input (keyup.control.shift.enter)="value2 = $any($event.target).value" />
+    <p>you entered {{ value2 }}</p>
+  </div>
+  <div class="barisd-section-divider">
+    inserting html block by programmatic approach
+  </div>
+  <div>
+    <!-- #htmlblock-->
+    <h1>html blocks examples</h1>
+    <div
+      *ngFor="let htmlBlock of htmlBlocks"
+      [innerHTML]="htmlBlock"
+      class="custom-html-block"
+    ></div>
+  </div>
+  <div class="barisd-section-divider">custom two-way binding</div>
+  <div>
+    <h1>custom two-way binding example</h1>
+    <div>
+      <app-counter-custom-two-way-example
+        #childCounter
+        [(count)]="count"
+      ></app-counter-custom-two-way-example>
+      <br />
+      <br />
+      <p>current count: {{ count }}</p>
+      <button (click)="clearCount()">Clear</button>
+    </div>
+  </div>
+  <div class="barisd-section-divider">template driven forms & ng-select</div>
+  <div>
+    <!-- #template #templatedriven #template driven #ng-select #ngselect #tdf -->
+    <div>
+      <h1>template driven forms</h1>
+      <div>
+        <form
+          novalidate
+          #tdfForm="ngForm"
+          (ngSubmit)="loginUserTdf(tdfForm, $event)"
+        >
+          <!-- (ngSubmit): If you dont need $event, you can use 'click button' approach instead of (ngSubmit) approach -->
+          <fieldset [disabled]="loading">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                #tdfEmail="ngModel"
+                name="email"
+                required
+                minlength="3"
+                maxlength="20"
+                placeholder="Email"
+                email
+                [(ngModel)]="tdf.email"
+                (ngModelChange)="byEmailTDFChange($event)"
+                [ngModelOptions]="{
+                  standalone: false,
+                  updateOn: 'change'
+                }"
+              />
+              <!-- pattern="[a-z]*" -->
+
+              <!-- tdf notes: -->
+              <!--
+                - one-way or two-way data binding is not related with handling the form
+                - name attribute, name="email" is not related with #tdfEmail="ngModel", #tdfEmail reference is for to be able to be used in template.
+                - name attribute name="email" is related with form controls
+                *ngIf="tdfForm.controls['email']?.hasError('required')"
+                - Note that same name should be used for clearance but not mandatory!
+                name="city" // for form control name
+                formControlName="city" // no need to use name attribute, it is redundant for reactive forms
+                [(ngModel)]="address.city" // for form control binding & property(one-way data-binding technique)/event binding
+                - example for tdf:
+                  <input type="text" class="form-control" id="name"
+                  required
+                  [(ngModel)]="model.name" name="name">
+                - _ngModel_ directice is used to bind the control to the form so the control can be tracked
+              -->
+              <!-- 'standalone: true' form control is disconnected from the parent ngForm so ngForm will not be able to track it. Most of the time, we dont use but maybe use case; to add a search input box in, say, a form that still has some validity rules but whose value is not getting included in the parent forum. -->
+              <!-- [ngModelOptions]="{ 'name:tdfEmail' }" // this is not working, i dont know why but this is not best practice anyway  -->
+              <mat-error
+                *ngIf="tdfForm.controls['email']?.hasError('required')"
+              >
+                The email is mandatory
+              </mat-error>
+              <!-- _#tdfEmail_ Dom Element Reference -->
+              <mat-error *ngIf="tdfEmail.errors?.minlength">
+                Your email must have minimum
+                {{ tdfEmail.errors?.minlength.requiredLength }} characters but
+                it only has {{ tdfEmail.errors?.minlength.actualLength }}
+              </mat-error>
+              <mat-error *ngIf="tdfEmail.errors?.email">
+                This is not a valid email
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                type="password"
+                name="password"
+                required
+                placeholder="Password"
+                #tdfPassword="ngModel"
+                [(ngModel)]="tdf.password"
+                appPasswordStrength
+                minlength="8"
+              />
+              <mat-error *ngIf="tdfPassword.errors?.required">
+                The password is mandatory</mat-error
+              >
+            </mat-form-field>
+            <!-- advice: you can just wrap the "ng-container" tag inside the "mat-error" tag for better displaying in the form -->
+            <!-- if the advice does not work, do the following: -->
+            <!-- mat-form-field: It takes the input  and it projects it inside it via content projection in a certain way to its template so this causes to styles are not applied properly. To fix it, we separate ng-container from inside of mat-form-field and replace mat-error with div class="field-message" So this is no longer part of the material form, but we can still display messages to the user by this way! -->
+
+            <ng-container
+              *ngIf="
+                tdfPassword.errors
+                  | onlyOneError : ['minlength', 'passwordStrength'] as error
+              "
+            >
+              <!-- Notice that the required error is only going to be shown if something is
+    typed in at the level of the form field. So by its very nature, the
+    required error will only show up if the other two errors are not
+    present. So we only need to specify here really the priority between the
+    minimum length error and the password strength error. -->
+              <div
+                class="field-message"
+                [ngStyle]="{
+                  color: 'red',
+                  fontSize: '75%',
+                  marginTop: '-20px',
+                  marginBottom: '-10px'
+                }"
+                *ngIf="error.minlength"
+              >
+                Your password must have minimum
+                {{ error.minlength.requiredLength }} characters but it only has
+                {{ error.minlength.actualLength }}
+              </div>
+              <div
+                class="field-message"
+                [ngStyle]="{
+                  color: 'red',
+                  fontSize: '75%',
+                  marginTop: '-20px',
+                  marginBottom: '-10px'
+                }"
+                *ngIf="error.passwordStrength"
+              >
+                Your password must have lower case, upper case and numeric
+                characters!
+              </div>
+            </ng-container>
+
+            <!-- #tdfformgroup #formgroup #ngmodelgroup -->
+            <div ngModelGroup="address">
+              <mat-form-field appearance="outline">
+                <mat-label>city</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  name="city"
+                  #tdfCity="ngModel"
+                  [(ngModel)]="tdf.address.city"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>pincode</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  name="pincode"
+                  #tdfPincode="ngModel"
+                  [(ngModel)]="tdf.address.pincode"
+                />
+              </mat-form-field>
+            </div>
+
+            <button mat-raised-button color="primary" type="submit">
+              <!-- [disabled]="tdfForm.valid === false" -->
+              SIGN IN
+            </button>
+          </fieldset>
+
+          tdfFormValue: {{ tdfForm.value | json }}
+          <br />
+          tdfFormIsValid: {{ tdfForm.valid | json }}
+
+          <h1>ng-select</h1>
+          <!-- ng-select V1 Notes -->
+          <!-- 1: bindValue belirtilmezse, tüm obje, bindLabel belirtilmezse, objedeki label otomatik olarak bağlanıyor, objedeki disabled da aynı şekilde bağlanıyor  -->
+          <h2><u>V1</u></h2>
+          <div>
+            <ng-select
+              [multiple]="false"
+              [items]="cars$ | async"
+              name="selectedCar"
+              bindLabel="name"
+              bindValue="id"
+              [(ngModel)]="tdf.selectedCar"
+              [loading]="carLoading"
+              [searchFn]="customSearchFn"
+              [editableSearchTerm]="true"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <b
+                  ><i>{{ item.name }} </i></b
+                ><br />
+                <small>{{ item.nested.name }}</small>
+              </ng-template>
+            </ng-select>
+          </div>
+        </form>
+        <br />
+        <!-- ng-select V2 Notes -->
+        <!-- 1: Server side tags; [addTag] also accepts promise if you need to verify new option with backend  -->
+        <h2><u>V2</u></h2>
+        <div>
+          <ng-select
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [items]="people$ | async"
+            bindLabel="name"
+            [(ngModel)]="selectedPersons"
+            [loading]="peopleLoading"
+            [addTag]="addTagFn"
+            [hideSelected]="true"
+            [trackByFn]="trackByFn"
+            [minTermLength]="2"
+            [maxSelectedItems]="3"
+            typeToSearchText="Please enter 2 or more characters"
+            [typeahead]="peopleInput$"
+            [dropdownPosition]="'top'"
+          >
+          </ng-select>
+
+          <p>selectedPersons: {{ selectedPersons | json }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="barisd-section-divider">reactive forms & ng-select</div>
+  <div>
+    <!-- #reactive #reactiveforms #reactive forms #ng-select #ngselect #rf-->
+    <div>
+      <h1>reactive forms examples</h1>
+      <div>
+        <form novalidate [formGroup]="rfForm">
+          <!-- (ngSubmit): If you need $event, you can use (ngSubmit) approach instead of 'click button' approach -->
+          <!-- <form [formGroup]="rfForm" (ngSubmit)="form.valid && loginUser(rfForm, $event)"> -->
+          <fieldset [disabled]="loading">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                placeholder="Email"
+                formControlName="email"
+              />
+
+              <mat-error
+                *ngIf="_email.hasError('required')"
+                class="form-control-feedback"
+              >
+                The email is mandatory
+              </mat-error>
+
+              <mat-error *ngIf="_email.hasError('minlength')">
+                Your email must have minimum
+                {{ _email.errors?.minlength.requiredLength }} characters but it
+                only has
+                {{ _email.errors?.minlength.actualLength }}
+              </mat-error>
+
+              <mat-error
+                *ngIf="_email.hasError('email')"
+                class="form-control-feedback"
+              >
+                This is not a valid email
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Password"
+                formControlName="password"
+              />
+
+              <mat-error
+                *ngIf="rfForm.controls['password'].hasError('required')"
+                class="form-control-feedback"
+              >
+                Password is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>captcha</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="captcha"
+                formControlName="captcha"
+              />
+            </mat-form-field>
+
+            <ng-container
+              *ngIf="
+                rfForm.controls['password'].errors
+                  | onlyOneError : ['minlength', 'passwordStrength'] as error
+              "
+            >
+              <div
+                class="field-message"
+                [ngStyle]="{
+                  color: 'red',
+                  fontSize: '75%',
+                  marginTop: '-20px',
+                  marginBottom: '-10px'
+                }"
+                *ngIf="error.minlength"
+              >
+                Your password must have minimum
+                {{ error.minlength.requiredLength }} characters but it only has
+                {{ error.minlength.actualLength }}
+              </div>
+              <div
+                class="field-message"
+                [ngStyle]="{
+                  color: 'red',
+                  fontSize: '75%',
+                  marginTop: '-20px',
+                  marginBottom: '-10px'
+                }"
+                *ngIf="error.passwordStrength"
+              >
+                Your password must have lower case, upper case and numeric
+                characters!
+              </div>
+            </ng-container>
+
+            <button
+              type="click"
+              [disabled]="loading"
+              mat-raised-button
+              color="primary"
+              (click)="loginUserRf(rfForm, $event)"
+            >
+              SIGN IN
+            </button>
+          </fieldset>
+          <hr />
+          <br />
+          <hr />
+
+          <!-- #nested array #nesteformarray #formarray #form array-->
+          <div formArrayName="employees">
+            <div
+              *ngFor="
+                let employee of employees().controls;
+                let empIndex = index
+              "
+            >
+              <div
+                [formGroupName]="empIndex"
+                style="
+                  border: 1px solid blue;
+                  padding: 10px;
+                  width: 600px;
+                  margin: 5px;
+                "
+              >
+                {{ empIndex }} First Name :
+                <input type="text" formControlName="firstName" />
+                Last Name:
+                <input type="text" formControlName="lastName" />
+
+                <p-button
+                  (click)="removeEmployee(empIndex)"
+                  label="Remove"
+                  [ngStyle]="{
+                    'width': '100px'
+                  }"
+                ></p-button>
+
+                <div formArrayName="skills">
+                  <p-table [value]="employeeSkills(empIndex).controls">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Skill</th>
+                        <th>Experience</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template
+                      pTemplate="body"
+                      let-rowData
+                      let-rowIndex="rowIndex"
+                    >
+                      {{ logSkillIndex(rowIndex) }}
+
+                      <tr [formGroupName]="rowIndex">
+                        <td><input type="text" formControlName="skill" /></td>
+                        <td><input type="text" formControlName="exp" /></td>
+                        <td>
+                          <button
+                            (click)="removeEmployeeSkill(empIndex, rowIndex)"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <button type="button" (click)="addEmployeeSkill(empIndex)">
+                  Add Skill
+                </button>
+              </div>
+            </div>
+          </div>
+          <button type="button" (click)="addEmployee()">Add Employee</button>
+
+          {{ this.rfForm.value | json }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

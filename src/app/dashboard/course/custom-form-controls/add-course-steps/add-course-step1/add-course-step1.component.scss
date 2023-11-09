@@ -1,0 +1,23 @@
+mat-form-field {
+  display: block;
+}
+// mat-form-field {
+//   &.inRow {
+//     display: inline-block;
+//   }
+// }
+
+textarea {
+  max-height: 20px;
+}
+
+.obligatoryConfirmError {
+  ::ng-deep {
+    .mat-checkbox-frame {
+      border-color: red;
+    }
+    .mat-checkbox-label {
+      color: red;
+    }
+  }
+}

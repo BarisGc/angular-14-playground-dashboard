@@ -1,0 +1,11 @@
+<p>admin-child1 works!</p>
+<input type="text"  #impersonatedUserEmail [(ngModel)]="impersonatedUser.email" />
+<button type="button" (click)="loginAsUser(impersonatedUserEmail.value)">
+  {{ 'Login As'+impersonatedUserEmail.value }}
+</button>
+<button (click)="goToGrandChild1()">Go to Admin Child1 GrandChild1</button>
+<!-- Caution: Do not forget to add router-outlet for nested children routing -->
+<!-- note: <router-outlet> is an Angular directive that acts as a placeholder where the content of the currently activated route will be rendered -->
+<router-outlet></router-outlet>
+
+

@@ -1,0 +1,23 @@
+<input type="text" [(ngModel)]="numberInputs.numberInput1" />
+<br />
+<input type="text" [(ngModel)]="numberInputs.numberInput2" #numberInput2Ref />
+<br />
+<div>result: {{ result }}</div>
+<!-- Always convert possible strings into number using +, parseint, or Number(). This will ensure that they are treated as numbers at runtime, even if they were originally strings since ts checks types at compile time-->
+<!-- TypeScript is a superset of JavaScript, which means that at runtime, your code is actually executed as JavaScript. The typeof operator in JavaScript returns the type of a variable at runtime, not at compile time.
+
+In your case, you are passing numberInputs.numberInput1 to the byAdd method, which you have declared as a number type. However, at runtime, this variable may actually contain a string value, which will cause a runtime error if you try to perform arithmetic operations on it.
+
+The reason TypeScript does not give you a warning in this case is because TypeScript is a statically-typed language, which means that it checks the types of variables at compile time, not at runtime. Since numberInputs.numberInput1 is declared as a number type, TypeScript assumes that it will always contain a number value, even though it may actually be a string at runtime. -->
+<button
+  (click)="
+    byAdd(+numberInputs.numberInput1, windowRef.Number(numberInput2Ref.value))
+  "
+>
+  Add!
+</button>
+<button
+  (click)="bySubtract(numberInputs.numberInput1, numberInputs.numberInput2)"
+>
+  Subtract!
+</button>

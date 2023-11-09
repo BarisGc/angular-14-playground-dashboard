@@ -1,0 +1,41 @@
+<fieldset autocomplete="off" [formGroup]="form">
+  <mat-card class="form-container">
+    <mat-card-title>Address Details</mat-card-title>
+
+    <!-- Street -->
+    <mat-form-field>
+      <mat-label>Street</mat-label>
+      <input matInput placeholder="Ex. street name" formControlName="street" />
+    </mat-form-field>
+    <!-- /Street -->
+
+    <!-- Street -->
+    <mat-form-field>
+      <mat-label>Number</mat-label>
+      <input
+        type="number"
+        matInput
+        placeholder="Ex. 12"
+        formControlName="number"
+      />
+    </mat-form-field>
+    <!-- /Street -->
+
+    <!-- Street -->
+    <mat-form-field>
+      <mat-label>Postal</mat-label>
+      <input matInput placeholder="Ex. 12345" formControlName="postal" />
+    </mat-form-field>
+    <!-- /Street -->
+
+    <!-- Company -->
+    <mat-form-field>
+      <mat-label>Company</mat-label>
+      <input matInput placeholder="Ex. Acme" formControlName="company" />
+      <mat-hint align="start" *ngIf="form.get('company')?.invalid">
+        <strong>Field is required</strong>
+      </mat-hint>
+    </mat-form-field>
+    <!-- /Company -->
+  </mat-card>
+</fieldset>

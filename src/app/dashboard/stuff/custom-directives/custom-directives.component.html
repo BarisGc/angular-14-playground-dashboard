@@ -1,0 +1,60 @@
+<header class="l-header">
+  <!-- #createEmbeddedView via directive -->
+  <h1>createEmbeddedView with Custom Structural Directive</h1>
+  <ul>
+    <li>Lessons</li>
+    <!-- #*notation
+    we use the * notation to tell angular to locate the template and inject its reference as TemplateRef -->
+    <li *rbacAllow="[rbacAllowSelection]">Admin</li>
+    <!-- <ng-template [rbacAllow]="[rbacAllowSelection]">
+      <li>Admin</li>
+    </ng-template> -->
+    <li>Sign Up</li>
+    <li>Login</li>
+    <li>Logout</li>
+  </ul>
+</header>
+
+<h1>
+  view-child-from-directives not possible since the comp is not child of the
+  directive, but workaround is:
+</h1>
+<app-my-easy-box #appMyEasyBox></app-my-easy-box>
+<p appViewChildFromDirectives [myEasyBoxComponent]="appMyEasyBox">
+  My Directive
+</p>
+<!-- alternative -->
+<!-- <p [appViewChildFromDirectives]="appMyEasyBox">My Directive</p> -->
+<!-- @Input() appViewChildFromDirectives!: MyEasyBoxComponent -->
+
+<h1>Get children using viewChildren with nested directives</h1>
+<div appParent>
+  Parent div directive
+  <div appChildAbc>Abc Child directive 1</div>
+  <div appChildAbc>
+    Abc Child directive 2
+    <div appChildXyz>Xyz Child directive 1</div>
+    <div appChildXyz>Xyz Child directive 2</div>
+  </div>
+</div>
+
+<!-- #hostlistener #hostbinding #twoway #two-way -->
+<h1>HostListener and HostBinding</h1>
+<h3>HostListener</h3>
+<div appHostListener>this parent element has appHostListener Directive</div>
+<h3>HostBinding & two-way binding in directives</h3>
+<div
+class="test123"
+  appHostBinding
+  [(first)]="firstParentProperty"
+  [second]="secondParentProperty"
+  (secondChange)="secondParentProperty = $event"
+>
+  <p>firstParentPropery {{ firstParentProperty }}</p>
+  <p>secondParentProperty {{ secondParentProperty }}</p>
+</div>
+
+<h1>extending ngClass example</h1>
+<div appExtendsNgclass>
+  <p>this is extending ngClass example</p>
+</div>

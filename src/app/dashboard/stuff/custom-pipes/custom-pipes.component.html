@@ -1,0 +1,267 @@
+<div class="barisd-section-divider">truncate pipe</div>
+<div>
+  <p style="font-weight: 900">
+    {{
+      "This description is very long and needs to be truncated"
+        | truncate : 5 : 15 : 25
+    }}
+  </p>
+  <p style="color: grey">
+    The sentence above is truncated using truncate-pipe.
+  </p>
+</div>
+<div class="barisd-section-divider">
+  date/decimal/currency/custom/async and other pipes
+</div>
+<div>
+  <p>
+    Unformatted date : <span>{{ toDate }}</span>
+  </p>
+  <p>
+    Formatted date by buildin date format : <span>{{ toDate | date }}</span>
+  </p>
+  <p>
+    Formatted date by buildin date format with pipe input(medium) :
+    <span>{{ toDate | date : "medium" }}</span>
+  </p>
+  <p>
+    Formatted date by buildin date format with pipe input(medium) + pipe chain :
+    <span>{{ toDate | date : "medium" | uppercase }}</span>
+  </p>
+  <p>
+    Current Date (Houston / Central Time / CDT):
+    <span
+      >{{ toDate | date : "yyyy-MM-dd HH:mm:ss MMMM" : "CDT" : "en-EN"
+      <br />
+      British date time is
+      {{ toDate | date : "dd/MM/yy HH:mm" : "GMT" : "en-GB" }} }}</span
+    >
+  </p>
+  <p>
+    a custom date pipe that allows me to subtract some days(28 for example) from
+    current date :<span>{{
+      toDate | customDateFormat : 28 : "yyyy-MM-dd"
+    }}</span>
+  </p>
+  <pre>
+    Date in India (IST Time Zone)  : {{ toDate | date : "short" : "IST" }}
+    Date in USA (CDT Time Zone)   : {{ toDate | date : "short" : "CDT" }}
+    Date in India (+0530)     : {{ toDate | date : "short" : "+0530" }}
+    Date in USA (-0700)     : {{ toDate | date : "short" : "-0500" }}
+  </pre>
+
+  <!-- <p>
+    caution: InvalidPipeArgument: 'NG0701: Missing locale data for the locale "tr-TR".' for pipe 'DatePipe'
+    Current Date (Houston / Central Time / CDT):
+    {{ toDate | date : "yyyy-MM-dd HH:mm:ss" : "CDT" : "tr-TR" }}
+  </p> -->
+  <p>
+    Formatted by DecimalPipe / NumberPipe 9542.1455421 :<span>{{
+      num | number
+    }}</span>
+  </p>
+  <p>
+    Formatted by DecimalPipe / NumberPipe 9542.1455421 :<span>{{
+      num | number : "5.1-2"
+    }}</span>
+  </p>
+  <p>
+    Formatted by DecimalPipe / NumberPipe 9542.1455421 :<span>{{
+      num | number : "7.1-5"
+    }}</span>
+  </p>
+  <p>
+    Formatted by PercentPipe 0.7414 :<span>{{ per }}</span>
+  </p>
+  <p>
+    Formatted by PercentPipe 0.7414 :<span>{{ per | percent }}</span>
+  </p>
+  <p>
+    Formatted by PercentPipe 0.7414 :<span>{{ per | percent : "1.2-2" }}</span>
+  </p>
+  <p>
+    Formatted by PercentPipe 1.3495 :<span>{{ per2 | percent : "4.3-5" }}</span>
+  </p>
+  <p>
+    Unformatted 175 :<span>
+      {{ cur }}
+    </span>
+  </p>
+  <p>
+    Formatted by CurrencyPipe 175 :<span>{{ cur | currency }}</span>
+  </p>
+  <p>
+    Formatted by CurrencyPipe 175 "INR" :<span>{{
+      cur | currency : "INR" : true : "4.2-2"
+    }}</span>
+  </p>
+
+  <h3>Fahrenheit to Celsius</h3>
+
+  <p>
+    Fahrenheit : <input type="number" [(ngModel)]="Fahrenheit" /> Celsius :
+    {{ Fahrenheit | tempConverter : "C" }}
+  </p>
+
+  <h3>Celsius to Fahrenheit</h3>
+  <p>
+    celsius : <input type="number" [(ngModel)]="celcius" /> Fahrenheit :
+    {{ celcius | tempConverter : "F" }}
+  </p>
+  <h1>Date Expression</h1>
+  <p>Date Object : {{ toDate2 | date }}</p>
+  <p>Number Date : {{ numDate | date }}</p>
+  <p>ISO Date : {{ strDate | date }}</p>
+
+  <h1>Async Pipe</h1>
+  <!-- #async #asyncpipe #as -->
+  <!-- note: if async pipe is used more than once, you need to use sharereplay() operator to avoid multiple http calls or instead, you can use as keyword to store the result in a variable and use it multiple times. -->
+  <div *ngIf="obsValue | async as value; else elseBlock">
+    <!-- "as value" works only inside the If Block -->
+    {{ value }}
+  </div>
+
+  <ng-template #elseBlock> Observable is loading. Please wait </ng-template>
+  <!-- v1 -->
+  <ul>
+    <li *ngFor="let breed of (hounds$ | async)?.message">{{ breed }}</li>
+  </ul>
+  <!-- v2 -->
+  <div *ngIf="hounds$ | async as breeds">
+    <ul>
+      <li *ngFor="let breed of breeds.message">{{ breed }}</li>
+    </ul>
+  </div>
+  <h1>
+    keyvalue pipe
+    <!-- #keyvaluepipe #keyvalue #keyvalue pipe -->
+    <!-- The KeyValue Pipe converts given Object or Map into an array of key-value pairs -->
+  </h1>
+  <div>
+    <ul>
+      <pre>
+        obj = curly braces
+          c: 123,
+          b: 456,
+          a: 789,
+          curly braces
+      </pre>
+      <li *ngFor="let item of obj | keyvalue">
+        {{ item.key }} : {{ item.value }}
+      </li>
+    </ul>
+    <ul>
+      <pre>
+        mapObj: [
+        ['c', 123],
+        ['b', 446],
+        ['a', 789],
+      ]
+      </pre>
+      <li *ngFor="let item of mapObj | keyvalue">
+        {{ item.key }} : {{ item.value }}
+      </li>
+      <hr />
+      <li *ngFor="let item of obj | keyvalue : orderOriginal">
+        orderOriginal {{ item.key }} : {{ item.value }}
+      </li>
+      <hr />
+      <li *ngFor="let item of obj | keyvalue : orderbyValueAsc">
+        orderbyValueAsc {{ item.key }} : {{ item.value }}
+      </li>
+      <hr />
+      <li *ngFor="let item of obj | keyvalue : orderbyValueDsc">
+        orderbyValueDsc {{ item.key }} : {{ item.value }}
+      </li>
+      <hr />
+      <li *ngFor="let item of breeds | keyvalue : orderClause">
+        orderClause: sublength lesser {{ item.key }} : {{ item.value }}
+      </li>
+      <li>
+        sorted non-ascii chracters
+        <pre>
+        unsorted {{ unsortedItems | json }}
+        sorted {{ sortedItems | json }}
+        </pre>
+      </li>
+    </ul>
+    <h1>claim check pipe</h1>
+    <div>
+      claim code is "canEdit"
+      <ng-container
+        *ngIf="'canEdit' | claimCheck; then accessed; else notAccessed"
+      >
+      </ng-container>
+    </div>
+    <div>
+      claim code is "canBlaBla"
+      <ng-container
+        *ngIf="'canBlaBla' | claimCheck; then accessed; else notAccessed"
+      >
+      </ng-container>
+    </div>
+    <div>
+      claim code is "canBlaBla"
+      <ng-container
+        *ngIf="'canAdd' | claimCheck; then accessed; else notAccessed"
+      >
+      </ng-container>
+    </div>
+    <ng-template #accessed> Accessed </ng-template>
+    <ng-template #notAccessed> Not Accessed </ng-template>
+  </div>
+</div>
+<div class="barisd-section-divider">
+  ngx-translate & localizedDate custom pipe
+</div>
+<div class="container">
+  <p-selectButton
+    [options]="localeOptions"
+    [(ngModel)]="selectedLocale"
+    (onOptionClick)="useLocale($event)"
+  >
+  </p-selectButton>
+
+  <p-card [header]="'title' | translate" [subheader]="'subtitle' | translate">
+    <ng-template pTemplate="header">
+      <img
+        src="https://cdn.britannica.com/78/154478-050-81A9D1B8/Bamako-Mali.jpg"
+        alt=""
+        class="header-image"
+      />
+    </ng-template>
+
+    <div class="date-container">
+      <div>
+        <p class="date-header">🛫</p>
+        <code class="date-pipe">Angular Date pipe</code>
+        <p>
+          {{ '2021-01-23' | date: 'longDate':undefined:'en' }}
+        </p>
+      </div>
+      <div>
+        <p class="date-header">🛬</p>
+        <code class="date-pipe">Localized Date pipe</code>
+        <p>
+          {{ currentDate | localizedDate: 'longDate' }}
+        </p>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="footer-ctas">
+        <button
+          pButton
+          [label]="'cta.visit' | translate"
+          icon="pi pi-heart"
+        ></button>
+        <button
+          pButton
+          [label]="'cta.more' | translate"
+          icon="pi pi-book"
+          class="p-button-secondary"
+        ></button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

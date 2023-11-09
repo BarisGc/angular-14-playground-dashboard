@@ -1,0 +1,57 @@
+<div class="create-course-panel data-form">
+  <h2>Add New Course</h2>
+  <mat-horizontal-stepper
+    class="mat-elevation-z5"
+    labelPosition="bottom"
+    [linear]="true"
+    #stepper
+  >
+    <!-- todo: linear true yap development sonrası -->
+    <!-- Step1 -->
+    <mat-step [stepControl]="step1.form" errorMessage="Landing page in error">
+      <ng-template matStepLabel>Course Landing Page Details</ng-template>
+      <app-add-course-step1 #step1></app-add-course-step1>
+      <div class="stepper-buttons">
+        <button mat-raised-button color="primary" matStepperNext>
+          Continue to Step 2
+        </button>
+      </div>
+    </mat-step>
+    <!-- Step2 -->
+    <mat-step [stepControl]="step2.form" errorMessage="Pricing in error">
+      <app-add-course-step2 #step2></app-add-course-step2>
+      <ng-template matStepLabel>Course Pricing Details</ng-template>
+      <div class="stepper-buttons">
+        <button mat-raised-button color="primary" matStepperPrevious>
+          Back to Step 1
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          (click)="validityCheckByNextStep()"
+        >
+          Continue to Step 3
+        </button>
+      </div>
+    </mat-step>
+    <!-- Step3 -->
+    <mat-step [stepControl]="step3.form" errorMessage="Course lessons in error">
+      <ng-template matStepLabel>Course Lessons</ng-template>
+      <app-add-course-step3 #step3></app-add-course-step3>
+      <div class="stepper-buttons">
+        <button mat-raised-button color="primary" matStepperPrevious>
+          Back to Step 2
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="step3.form.invalid || step3._lessons.length === 0"
+          (click)="submit(step1.form.value, step2.form.value, step3.form.value)"
+        >
+          Save Course
+        </button>
+      </div></mat-step
+    >
+  </mat-horizontal-stepper>
+</div>

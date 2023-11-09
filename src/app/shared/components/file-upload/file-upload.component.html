@@ -1,0 +1,52 @@
+<input
+  type="file"
+  class="file-input"
+  #fileUpload
+  (change)="byFileSelected($event)"
+  [accept]="requiredFileType"
+/>
+
+<!-- Note: we used this technique since styling native input element of type file is
+very hard. -->
+<div class="file-upload">
+  <mat-form-field>
+    <input matInput [disabled]="true" [value]="fileName" />
+    <!-- alternative: add attribute accept. example: accept="image/*" instead of [value]="fileName" -->
+  </mat-form-field>
+
+  <button
+    mat-mini-fab
+    color="primary"
+    class="upload-btn"
+    (click)="byClickingFileInput(fileUpload)"
+    [disabled]="isDisabled"
+  >
+    <mat-icon>attach_file</mat-icon>
+  </button>
+</div>
+<mat-progress-bar
+  *ngIf="uploadProgress"
+  mode="determinate"
+  [value]="uploadProgress"
+></mat-progress-bar>
+
+<!-- note: Now notice that these are the visible elements, but in order to do the file upload itself, we are
+going to need an input element of type file.
+The problem with this type of input and the reason why we haven't used it here on the visible part of
+our component is that this input of type file is very hard to style properly.
+So what we usually do in all of the file upload components that you usually see online is that we apply
+access Gless to our input of type file in order to hide this file input from view.
+We can do so by applying here.
+This year, Gless file input that, as we can see, sets the display property to learn.
+So this input is going to be hidden from the user.
+The user is not going to be able to see it.
+However, we are going to be using it behind the scenes in order to manage our file upload.
+And it's with this simple technique that we usually build file upload components because we cannot style
+an input of type file properly.
+In most browsers.
+We use this input file and we hide it from the user.
+We use it behind the scenes and next to it we build end user interface that we want.
+In this case, we are simply using a plain text file and a button next to it.
+That's what the user is going to be seeing on the background, hidden away from the view of the user.
+The input of type file is going to be used to do the actual file upload before trying out this new version
+of our component. -->

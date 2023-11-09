@@ -1,0 +1,21 @@
+<h1>input-output practice</h1>
+<p>Today's item: {{ item }}</p>
+
+<label for="item-input">Add an item:</label>
+<input [appAutoFocus]="true" type="text" id="item-input" #newItem />
+<button type="button" (click)="addNewItem(newItem.value)">
+  Add to parent's list
+</button>
+<button type="button" (click)="deleteSearchedItem(newItem.value)">
+  Delete Searched Items Inside parent's list
+</button>
+
+<br />
+<hr />
+<br />
+<h1>Two-Way binding practice</h1>
+<div>
+  <button type="button" (click)="dec()" title="smaller">-</button>
+  <button type="button" (click)="inc()" title="bigger">+</button>
+  <span [style.font-size.px]="size">FontSize: {{ size }}px</span>
+</div>

@@ -1,0 +1,30 @@
+<div class="barisd-section-divider">Dependency Token Examples</div>
+<!-- UseValue -->
+<h1>Usevalue</h1>
+<div>
+  <p>apiUrlViaConstructor: {{ apiUrlViaConstructor }}</p>
+  <p>isBetter: {{ isBetter }}</p>
+  <p>Config: {{ Config }}</p>
+  <p>
+    apiUrlViaInjectorFunction:
+    {{ apiUrlViaInjectorFunction }}
+  </p>
+  <p>funcByUseFactory: {{ funcByUseFactory }}</p>
+  <p>funcByUseValue: {{ funcByUseValue }}</p>
+  <p>funcByUseFactory as funcByUseExist: {{ funcByUseExist }}</p>
+
+  <button type="button" (click)="openPage('js-and-ts-practice')">
+    js-and-ts-practice
+  </button>
+</div>
+<!-- UseClass -->
+<h1>UseClass</h1>
+<div>
+  <p>products: {{ products | json }}</p>
+  <button type="button" (click)="getProducts()">Get Products</button>
+  <button type="button" (click)="getProductsByUseFactory()">Get Products</button>
+</div>
+
+<h1>UseFactory</h1>
+
+<h1>UseExist</h1>

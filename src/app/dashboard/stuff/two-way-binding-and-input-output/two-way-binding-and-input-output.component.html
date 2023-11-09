@@ -1,0 +1,35 @@
+<app-child1
+  [item]="currentItem"
+  (newItemEvent)="addItem($event)"
+  (deleteSearchedItemEvent)="deleteSearchedItem($event)"
+  [(size)]="fontSizePx"
+
+></app-child1>
+<!-- [size]="fontSizePx" (sizeChange)="fontSizePx=$event" -->
+<!-- Because no built-in HTML element follows the x value and xChange event pattern, two-way binding with form elements requires NgModel -->
+<div [style.font-size.px]="fontSizePx">Resizable Text</div>
+<br />
+<hr />
+<br />
+<h4>Parent Items</h4>
+<ul>
+  <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+<br />
+<hr />
+<br />
+<h1>Service Practice</h1>
+<div>
+  <button type="button" (click)="doFromParentService()" title="smaller">
+    doFromParentService
+  </button>
+</div>
+<div>
+  {{ "publicparentservice: " + publicParentService.isPublicParentServiceValid }}
+</div>
+<div>parentServiceData: {{ parentServiceData }}</div>
+<div>publicchild2ServiceData: {{ child2ServiceData }}</div>
+<hr />
+<br />
+<h1>Pipes Practice</h1>
+<app-pipes-practice></app-pipes-practice>

@@ -1,0 +1,137 @@
+<div class="dashboard">
+  <app-sidenav #appSideNav>
+    <dl>
+      <dt routerLink="/dashboard/home" routerLinkActive="active">Home</dt>
+    </dl>
+    <dl class="submenu" *rbacAllow="rbacAllowAdmin">
+      <dt>Admin</dt>
+      <dd>
+        <!-- Todo:  [routerLinkActiveOptions]="{ exact: true }" denemeler yap -->
+        <a
+          routerLink="/dashboard/admin"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Admin
+        </a>
+        <a routerLink="/dashboard/admin/child1" routerLinkActive="active">
+          Admin Child1
+        </a>
+        <a routerLink="/dashboard/admin/child2" routerLinkActive="active">
+          Admin Child2
+        </a>
+      </dd>
+    </dl>
+    <dl>
+      <dt routerLink="/dashboard/customer" routerLinkActive="active">
+        Customer
+      </dt>
+    </dl>
+    <dl>
+      <dt routerLink="/dashboard/movie" routerLinkActive="active">Movie</dt>
+    </dl>
+
+    <dl class="submenu">
+      <dt>Course</dt>
+      <dd>
+        <!-- Todo:  [routerLinkActiveOptions]="{ exact: true }" denemeler yap -->
+        <a
+          routerLink="/dashboard/course"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Course List
+        </a>
+        <a
+          routerLink="/dashboard/course/search-lessons"
+          routerLinkActive="active"
+        >
+          Search Lessons
+        </a>
+        <a
+          routerLink="/dashboard/course/custom-form-controls"
+          routerLinkActive="active"
+        >
+          Custom Form Controls
+        </a>
+      </dd>
+    </dl>
+    <dl class="submenu">
+      <dt>Stuff</dt>
+      <dd>
+        <a
+          routerLink="/dashboard/stuff/angular-basics"
+          routerLinkActive="active"
+        >
+          Angular Basics
+        </a>
+        <a
+          routerLink="/dashboard/stuff/angular-forms"
+          routerLinkActive="active"
+        >
+          Angular Forms
+        </a>
+        <a
+          routerLink="/dashboard/stuff/custom-directives"
+          routerLinkActive="active"
+        >
+          Custom Directives
+        </a>
+        <a
+          routerLink="/dashboard/stuff/custom-pipes"
+          routerLinkActive="active"
+        >
+          Custom Pipes
+        </a>
+        <a
+          routerLink="/dashboard/stuff/two-way-binding-and-input-output"
+          routerLinkActive="active"
+        >
+          Two Way Binding And Input Output
+        </a>
+        <a
+          routerLink="/dashboard/stuff/js-and-ts-practice"
+          routerLinkActive="active"
+        >
+          Js and Ts Practice
+        </a>
+        <a
+          routerLink="/dashboard/stuff/dependency-tokens"
+          routerLinkActive="active"
+        >
+          Dependency Tokens
+        </a>
+        <a
+          routerLink="/dashboard/stuff/angular-test-practice"
+          routerLinkActive="active"
+        >
+          Angular Test Practice
+        </a>
+        <a routerLink="/dashboard/stuff/clean-code" routerLinkActive="active">
+          Clean Code
+        </a>
+
+        <a
+          routerLink="/dashboard/stuff/rxjs-practice"
+          routerLinkActive="active"
+        >
+          Rxjs Practice
+        </a>
+      </dd>
+    </dl>
+  </app-sidenav>
+
+  <div class="wrapper">
+    <app-toolbar (sidenavToggle)="onSidenavToggle()"></app-toolbar>
+
+    <div class="content">
+      <div class="content__body">
+        <messages></messages>
+        <loading [detectRoutingOngoing]="true"></loading>
+        <router-outlet></router-outlet>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>

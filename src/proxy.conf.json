@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "http://localhost:9000",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/assets/i18n": {
+    "target": "http://localhost:4200",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

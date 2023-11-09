@@ -1,0 +1,41 @@
+span {
+  color: dodgerblue
+}
+
+// nxg-translate
+.container {
+  width: 400px;
+  margin: 30px auto 0;
+  font-family: Roboto;
+}
+
+.header-image {
+  height: 150px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 0;
+}
+
+.date-container {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.date-header {
+  font-size: 50px;
+  line-height: 60px;
+  margin: 0;
+}
+
+.date-pipe {
+  font-size: 12px;
+}
+
+.footer-ctas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+}

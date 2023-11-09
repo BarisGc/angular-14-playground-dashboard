@@ -1,0 +1,11 @@
+<mat-card class="form-container" [formGroup]="form">
+  <mat-card-title>Colors</mat-card-title>
+
+  <ng-container formArrayName="colors">
+    <mat-form-field *ngFor="let color of formArray.controls; let idx = index">
+      <mat-label>Color</mat-label>
+      <input matInput placeholder="Ex. Red" [formControlName]="idx" />
+    </mat-form-field>
+  </ng-container>
+
+</mat-card>

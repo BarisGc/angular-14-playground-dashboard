@@ -1,0 +1,195 @@
+/* dummy table & *ngfOR */
+// variables
+$number: 1;
+$colorGray: #ccc;
+$colorRed: #ffa6d1;
+$colorBlue: #93cffd;
+$colorGreen: #98dd98;
+$buttonShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+$thBorder: 1px solid $colorRed;
+$tdBorder: 1px solid $colorBlue;
+$tableBorder: 1px solid #000;
+$dummyText: "dummy text-1";
+$dummyText: "dummy text-default" !default;
+$nothing: null;
+
+// mixins
+@mixin flexible(
+  $flex-direction: column,
+  $justify-content: center,
+  $align-items: center
+) {
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+.flexibleRow {
+  @include flexible(row);
+}
+.flexibleColumn {
+  @include flexible(column);
+}
+
+// cross-browser-example
+@mixin rotate($deg) {
+  -webkit-transform: rotate($deg); // Safari 3.1+, Chrome, Opera 10.5
+  -moz-transform: rotate($deg); // Firefox 3.5-15
+  -ms-transform: rotate($deg); // IE9+
+  -o-transform: rotate($deg); // Opera 12.1-12.0
+  transform: rotate($deg); // W3C
+}
+
+.rotate-element {
+  @include rotate(180deg);
+}
+
+// mixin clickable table rows
+@mixin clickableTableRows() {
+  tr {
+    cursor: pointer;
+    &:hover {
+      background-color: #f5f5f5;
+      color: black;
+    }
+  }
+}
+// mixin zebra example1
+@mixin zebra($color1: teal, $color2: blueviolet) {
+  tr:nth-child(odd) {
+    color: whitesmoke;
+    background-color: $color1;
+  }
+  tr:nth-child(even) {
+    color: whitesmoke;
+    background-color: $color2;
+  }
+}
+.coursesContainer {
+  @include zebra();
+}
+
+// mixin zebra example2
+@mixin zebra2() {
+  @for $i from 0 through 50 {
+    @if ($i % 2 == 1) {
+      .stripe-#{$i} {
+        background-color: gainsboro;
+      }
+    } @else {
+      .stripe-#{$i} {
+        background-color: burlywood;
+      }
+    }
+  }
+}
+
+// Css: .updateLastButton.rotate-element
+.updateLastButton {
+  &.rotate-element {
+    opacity: 1;
+  }
+}
+
+// Check if parent exists. Bu konuyu anlamadım...
+// @mixin does-parent-exist {
+//   @if & {
+//     &:hover {
+//       color: blue;
+//     }
+//   } @else {
+//     &:hover {
+//       color: crimson;
+//     }
+//   }
+// }
+// .customHeader {
+//   @include does-parent-exist;
+// }
+
+// dummyTableCells
+#dummyTable {
+  @include clickableTableRows();
+  border: $tableBorder;
+  border-collapse: collapse;
+  width: 100%;
+  tr {
+    th {
+      border: $thBorder;
+      padding: 5px;
+      text-align: center;
+    }
+    td {
+      border: $tdBorder;
+      padding: 5px;
+      text-align: center;
+      .courses {
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .course {
+          border: none;
+        }
+      }
+    }
+  }
+  @include zebra2();
+}
+
+#dummyTextContainer {
+  content: $dummyText;
+}
+
+#buttonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto auto 1rem auto;
+}
+
+.deleteLastButton {
+  background-color: $colorRed;
+  color: #fff;
+  border: none;
+  padding: 5px * 2;
+  margin: calc(10px / 2); //math.div(10px, 2)
+  cursor: pointer;
+  &:hover {
+    box-shadow: $buttonShadow;
+  }
+}
+.updateLastButton {
+  background-color: $colorBlue;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: $buttonShadow;
+  }
+}
+.addNewButton {
+  background-color: $colorGreen;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: $buttonShadow;
+  }
+}
+
+.refreshButton {
+  background-color: $colorGray;
+  color: #000;
+  border: none;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: $buttonShadow;
+  }
+}

@@ -1,0 +1,23 @@
+/* layout */
+:host ::ng-deep .barisd-section-divider {
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  & + div h1 {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 1.5rem 0;
+    background-color: teal;
+    font-style: italic;
+  }
+}
+
+:host ::ng-deep .barisd-section-divider::before,
+:host ::ng-deep .barisd-section-divider::after {
+  flex: 1;
+  content: "";
+  padding: 3px;
+  background-color: red;
+  margin: 5px;
+}

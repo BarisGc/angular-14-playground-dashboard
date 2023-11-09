@@ -1,0 +1,115 @@
+<div [formGroup]="form">
+  <!-- Custom Form Example Start-->
+  <address-form legend="Address" formControlName="address"></address-form>
+  <!-- Custom Form Example End-->
+  <br />
+  <!-- Custom Form Alternative Example-1 Start-->
+  <app-basic-form formGroupName="basicInfo"></app-basic-form>
+  <!-- Custom Form Alternative Example-1 END-->
+  <!-- Custom Form Alternative Example-2 Start-->
+  <app-no-cva-address-form
+    #cva
+    [legend]="'NoCvaAddress'"
+    formGroupName="noCvaAddress"
+    [formFromParent]="form"
+  ></app-no-cva-address-form>
+  <!-- Custom Form Alternative Example-2 END-->
+  <!-- Custom Form Alternative Example-3 Start-->
+  <app-colors formArrayName="colors"></app-colors
+  ><!-- Custom Form Alternative Example-3 End-->
+  <mat-form-field>
+    <input matInput placeholder="Course Title" formControlName="title" #title />
+
+    <mat-hint align="end">
+      {{ title.value.length < 61 ? title.value.length : 60 }} / 60
+    </mat-hint>
+    <mat-error *ngIf="_title.errors?.titleExists"
+      >This title is already being used.</mat-error
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Select Category" formControlName="category">
+      <ng-container *ngFor="let category of courseCategories$ | async">
+        <mat-option [value]="category.code">
+          {{ category.description }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  <mat-checkbox
+    [ngStyle]="{ paddingTop: '5px', paddingBottom: '5px' }"
+    color="primary"
+    formControlName="setDate"
+  >
+    Set Release Date?
+  </mat-checkbox>
+  <mat-form-field *ngIf="_setDate.value">
+    <input
+      matInput
+      [matDatepicker]="releaseDatePicker"
+      placeholder="Release Date"
+      formControlName="releasedAt"
+    />
+    <mat-datepicker-toggle
+      [hidden]="!form.get('setDate')?.value"
+      matSuffix
+      [for]="releaseDatePicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker
+      [hidden]="!form.get('setDate')?.value"
+      #releaseDatePicker
+    ></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <textarea
+      matInput
+      placeholder="Long Description"
+      formControlName="longDescription"
+    ></textarea></mat-form-field
+  ><!-- We can do so by adding the mat checkbox component here to our form and notice that unlike other types
+    of components, we don't have to wrap these in the material form field.
+    The material form field is really for components, such as inputs, text areas and anything that needs
+    to be projected inside the properly formatted material field, such as an input, a suffix, and the material for a field is going to project that content inside its
+    template using angular content projection -->
+  <mat-checkbox
+    [ngStyle]="{ display: 'block' }"
+    color="primary"
+    formControlName="downloadsAllowed"
+    [ngClass]="{ obligatoryConfirmError: _downloadsAllowed.errors?.['obligatoryConfirmError'] }"
+  >
+    Are Downloads Allowed?
+  </mat-checkbox>
+  <mat-error *ngIf="_downloadsAllowed.errors?.['obligatoryConfirmError']">
+    {{ "Please check the box to continue" }}
+  </mat-error>
+</div>
+
+<div class="form-val">
+  <hr />
+  formvalid: {{ form.valid | json }}
+  <hr />
+  <hr />
+  formDirty: {{ form.dirty | json }}
+  <hr />
+  <hr />
+  formvalue: {{ form.value | json }}
+  <hr />
+  title valid: {{ _title.valid }}
+  <hr />
+  title errors: {{ _title.errors | json }}
+  <hr />
+  setDate valid: {{ _setDate.valid }}
+  <hr />
+  setDate value: {{ _setDate.value }}
+  <hr />
+  releasedAt valid: {{ _releasedAt.valid }}
+  <hr />
+  releasedAt errors: {{ _releasedAt.errors | json }}
+  <hr />
+  checkbox valid: {{ _downloadsAllowed.valid }}
+  <hr />
+  checkbox errors: {{ _downloadsAllowed.errors | json }}
+  <hr />
+  longDescription valid: {{ _longDescription.valid }}
+</div>
