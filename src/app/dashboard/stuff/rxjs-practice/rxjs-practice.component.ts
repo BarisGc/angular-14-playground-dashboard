@@ -4,10 +4,12 @@ import {
   Observer,
   Subject,
   Subscriber,
+  Subscription,
   catchError,
   finalize,
   tap,
   throwError,
+  timer,
 } from 'rxjs';
 
 @Component({
@@ -23,9 +25,10 @@ export class RxjsPracticeComponent implements OnInit {
   }
 
   setPractices() {
-    this.practice_Promises_Vs_Observables();
-    this.practice_Observables_Vs_Observers_Vs_Subscriptions_Vs_Subjects();
-    this.practice_Error_Handling();
+    // this.practice_Promises_Vs_Observables();
+    // this.practice_Observables_Vs_Observers_Vs_Subscriptions_Vs_Subjects();
+    // this.practice_Error_Handling();
+    // this.practice_Unsubscription_Approaches()
   }
 
   practice_Promises_Vs_Observables() {
@@ -201,6 +204,22 @@ export class RxjsPracticeComponent implements OnInit {
     // catchError Error: Error emitted by throw
     // observer Error: Error emitted by throw
     // finalize
+  }
+
+  practice_Unsubscription_Approaches() {
+    // #subscriptions #unsubscription #unsubs # unsubscript
+    // Create a Subscription object to manage multiple subscriptions
+    const subscriptions = new Subscription();
+
+    // Add subscriptions to the collection
+    const sub1 = timer(0, 1000).subscribe((data) => console.log('data1', data));
+    const sub2 = timer(0, 3000).subscribe((data) => console.log('data2', data));
+
+    subscriptions.add(sub1);
+    subscriptions.add(sub2);
+    setTimeout(() => {
+      subscriptions.unsubscribe();
+    }, 10000);
   }
 
   // note:
